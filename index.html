@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Timer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .timer {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .sleeping-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 300px;
+            max-height: 300px;
+        }
+
+        .flying-z {
+            position: absolute;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            animation: fly infinite linear;
+        }
+
+        @keyframes fly {
+            from {
+                transform: translate(-50%, -50%);
+            }
+            to {
+                transform: translate(200vw, 200vh);
+            }
+        }
+
+        .audio-on {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Timer -->
+    <div class="timer" id="timer">14:00:00:00</div>
+
+    <!-- Sleeping Image -->
+    <img src="sleep.png" alt="Sleeping in bed" class="sleeping-image">
+
+    <!-- Audio -->
+    <audio id="background-audio" autoplay loop>
+        <source src="sleep_audio.mp4" type="audio/mp4">
+        Your browser does not support the audio tag.
+    </audio>
+
+    <!-- Audio On Sign -->
+    <div class="audio-on">Audio On</div>
+
+    <script>
+        // Timer Logic
+        let seconds = 14 * 60 * 60; // Start at 14 hours in seconds
+        const timerElement = document.getElementById("timer");
+
+        function updateTimer() {
+            seconds++;
+            const days = Math.floor(seconds / (24 * 3600));
+            const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            timerElement.textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        setInterval(updateTimer, 1000);
+
+        // Flying Z's
+        const body = document.body;
+
+        function createFlyingZ() {
+            const z = document.createElement("div");
+            z.textContent = "Z";
+            z.className = "flying-z";
+            z.style.left = Math.random() * window.innerWidth + "px";
+            z.style.top = Math.random() * window.innerHeight + "px";
+            z.style.animationDuration = Math.random() * 10 + 5 + "s";
+            z.style.animationDelay = Math.random() * 5 + "s";
+            body.appendChild(z);
+
+            setTimeout(() => {
+                body.removeChild(z);
+            }, 15000);
+        }
+
+        setInterval(createFlyingZ, 500);
+    </script>
+</body>
+</html>
